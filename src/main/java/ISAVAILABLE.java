@@ -1,0 +1,3 @@
+public enum ISAVAILABLE {
+    PARKED,AVAILABLE;
+}
