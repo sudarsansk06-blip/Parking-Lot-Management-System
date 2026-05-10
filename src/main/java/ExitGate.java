@@ -3,7 +3,7 @@ import java.time.temporal.ChronoUnit;
 
 public class ExitGate {
     private static int id = 1;
-    public static void needToExit(long tokenId, ParkingFloor parkingFloor) {
+    public static void needToExit(long tokenId, ParkingFloor parkingFloor,String day) {
         boolean bool = false;
         for (ParkingSpot p : parkingFloor.getParkingSpot()) {
             if (tokenId == p.getTokenId()) {
@@ -12,6 +12,7 @@ public class ExitGate {
                 p.setTokenId(id++);
                 p.setVehicleNo("No Vehicle");
                 System.out.println("--------------------------------------------------------");
+                System.out.println("Your fees was : "+calculateFees(day,p.getVehicletype())+"rs");
                 System.out.println("Thank you, we Welcome you Again...");
                 System.out.println("--------------------------------------------------------");
             }
@@ -23,15 +24,19 @@ public class ExitGate {
     private static long calculateFees(String day, VEHICLETYPE vehicletype){
         LocalDate today = LocalDate.parse(day);
         LocalDate date = LocalDate.now();
+        if(today.isAfter(date)){
+            System.out.println("Invalid Date!...");
+        }
         long Days = ChronoUnit.DAYS.between(today,date);
+        long amount = 0;
         if(vehicletype == VEHICLETYPE.BIKE) {
-            return Days * 20;
+            amount =  Days * 20;
         }
         else if(vehicletype == VEHICLETYPE.CAR){
-            return Days*100;
+            amount =  Days*100;
         } else if (vehicletype == VEHICLETYPE.LORRY) {
-            return Days*500;
+            amount =  Days*500;
         }
-        return Days;
+        return amount;
     }
 }

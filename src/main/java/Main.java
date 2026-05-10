@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -99,9 +100,22 @@ public class Main {
                         }
                         break;
                     case 6:
-                        System.out.println("Enter the Token Id : ");
-                        long tokenId = scan.nextLong();
-                        ParkingFloor.needToExit(tokenId, parkingFloor1);
+                        try {
+                            System.out.println("Enter the parked Date : (YYYY-MM-DD)");
+                            String day = scan.next();
+                            LocalDate today = LocalDate.parse(day);
+                            LocalDate date = LocalDate.now();
+                            if (today.isAfter(date)) {
+                                System.out.println("Invalid Date!...");
+                                break;
+                            }
+                            System.out.println("Enter the Token Id : ");
+                            long tokenId = scan.nextLong();
+                            ParkingFloor.needToExit(tokenId, parkingFloor1, day);
+                        } catch (Exception e) {
+                            System.out.println("Invalid date");
+                        }
+
                         break;
                     case 7:
                         System.out.println("Thank You!");
@@ -111,8 +125,7 @@ public class Main {
                         System.out.println("You have entered an Invalid Number!");
                 }
 
-            }
-            catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println();
                 System.out.println("Please, Enter only Numbers (eg : 1,2,3...)");
                 scan.nextLine();

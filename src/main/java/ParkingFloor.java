@@ -41,8 +41,8 @@ public class ParkingFloor {
     }
 
     //TO_EXIT
-    public static void needToExit(long tokenId, ParkingFloor parkingFloor){
-        ExitGate.needToExit(tokenId,parkingFloor);
+    public static void needToExit(long tokenId, ParkingFloor parkingFloor,String day){
+        ExitGate.needToExit(tokenId,parkingFloor,day);
     }
     //Setters
     public void addParkingSpot(int spotId, VEHICLETYPE vehicletype, ISAVAILABLE isAvailable,String vehicleNo) {
