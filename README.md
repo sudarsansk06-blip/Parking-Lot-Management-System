@@ -54,7 +54,7 @@ This project simulates a real-world parking lot where vehicles can be parked, re
 
 # Class Diagram
 
-![Plant UML Diagram](Parking-Lot-Diagram.png)
+![Parking Lot Diagram](parking-lot-diagram.png)
 
 ## Project Structure
 
