@@ -1,0 +1,136 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+enum VEHICLETYPE {
+  BIKE
+  CAR
+  LORRY
+}
+
+enum ISAVAILABLE {
+  AVAILABLE
+  PARKED
+}
+
+class Vehicle {
+  - numberPlate : String
+  - vehicleType : VEHICLETYPE
+  --
+  + getNumberPlate() : String
+  + getVehicleType() : VEHICLETYPE
+}
+
+class Bike {
+  - bikes : List<Bike>
+  --
+  + addBike(bike : Bike) : void
+  + ParkedBikesHistory() : List<Bike>
+  + toString() : String
+}
+
+class Car {
+  - cars : List<Car>
+  --
+  + addCar(car : Car) : void
+  + ParkedCarsHistory() : List<Car>
+  + toString() : String
+}
+
+class Lorry {
+  - lorries : List<Lorry>
+  --
+  + addLorry(lorry : Lorry) : void
+  + ParkedlorriesHistory() : List<Lorry>
+  + toString() : String
+}
+
+class ParkingSpot {
+  - spotId : int
+  - vehicletype : VEHICLETYPE
+  - isAvailable : ISAVAILABLE
+  - vehicleNo : String
+  - tokenId : long
+  --
+  + getSpotId() : int
+  + getVehicletype() : VEHICLETYPE
+  + getIsAvailable() : ISAVAILABLE
+  + getTokenId() : long
+  + getvehicleNo() : String
+  + setIsAvailable(status : ISAVAILABLE) : void
+  + setTokenId(id : long) : void
+  + setVehicleNo(vno : String) : void
+  + toString() : String
+}
+
+class Token {
+  - tokenId : long
+  - vehicletype : VEHICLETYPE
+  - parkingSpot : ParkingSpot
+  --
+  + getTokenId() : long
+  + getSpotId() : int
+}
+
+class Payment {
+  --
+  + calculateFees(day : String, type : VEHICLETYPE) : long
+  + getFees() : long
+}
+
+class ParkingFloor {
+  - parkingFloor1 : ParkingFloor
+  - parkingSpots : List<ParkingSpot>
+  --
+  + getInstance() : ParkingFloor
+  + addParkingSpot(spotId : int, type : VEHICLETYPE, status : ISAVAILABLE, vno : String) : void
+  + getParkingSpot() : List<ParkingSpot>
+  + getAvailableParkingSpot() : List<ParkingSpot>
+  + checkVNO(vehicleNo : String) : boolean
+}
+
+class EntryGate {
+  --
+  + EntryGate(vehicleNo : String, vehicletype : VEHICLETYPE, parkingFloor : ParkingFloor)
+}
+
+class ExitGate {
+  --
+  + ExitGate(tokenId : long, parkingFloor : ParkingFloor, day : String)
+}
+
+class ParkingLot {
+  - floors : List<ParkingFloor>
+}
+
+class Main {
+  + main(args : String[]) : void
+}
+
+' Inheritance
+Vehicle <|-- Bike
+Vehicle <|-- Car
+Vehicle <|-- Lorry
+
+' Associations
+ParkingFloor "1" o-- "many" ParkingSpot : contains
+ParkingLot "1" o-- "many" ParkingFloor : contains
+Token --> ParkingSpot : references
+EntryGate ..> Token : creates
+EntryGate ..> ParkingFloor : uses
+ExitGate ..> Payment : uses
+ExitGate ..> ParkingFloor : uses
+ParkingFloor ..> EntryGate : delegates to
+ParkingFloor ..> ExitGate : delegates to
+Main ..> ParkingFloor : uses
+Main ..> Bike : creates
+Main ..> Car : creates
+Main ..> Lorry : creates
+
+' Enum usage
+ParkingSpot --> VEHICLETYPE
+ParkingSpot --> ISAVAILABLE
+Vehicle --> VEHICLETYPE
+Token --> VEHICLETYPE
+Payment --> VEHICLETYPE
+
+@enduml
